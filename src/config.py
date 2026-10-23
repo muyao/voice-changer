@@ -21,7 +21,8 @@ with open(CONFIG_PATH, "r") as f:
 	SHIFT = dat["shift"]
 	"""Shift audio right by SHIFT hz. Happens after amplification"""
 
-	FREQ_CHANGES = dat["freq_changes"]
+	freqch_raw: dict = dat["freq_changes"]
+	FREQ_CHANGES = {int(k): v for k, v in freqch_raw.items()}
 	"""Amplify specific frequencies"""
 
 	MIC_NAME = dat["mic_name"]
