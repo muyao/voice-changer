@@ -25,7 +25,7 @@ def identify_devices() -> tuple[int, int]:
 	# DEBUG
 	# TODO
 
-	print(f"dev in: {devs[mic_id]['name']}")
-	print(f"dev out: {devs[bkh_id]['name']}")
+	print(f'Using input device "{devs[mic_id]["name"]}"')
+	print(f'Processed output at "{devs[bkh_id]["name"]}"')
 
 	return (mic_id, bkh_id)

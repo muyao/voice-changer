@@ -28,7 +28,7 @@ def main() -> None:
 				sd.sleep(1000)
 
 	except KeyboardInterrupt:
-		return
+		pass
 
 
 if __name__ == "__main__":
