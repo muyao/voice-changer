@@ -1,6 +1,6 @@
 {
 	"version": 1,
-	"mic_name": "MacBook Pro Microphone",
+	"mic_name": "",
 	"blackhole_name": "BlackHole 2ch",
 	"shift": 0,
 	"freq_changes": {}
