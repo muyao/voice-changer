@@ -1,11 +1,36 @@
-SHIFT = 0
-"""Shift audio right by SHIFT hz. Happens after amplification"""
+import json
+import sys
+from pathlib import Path
 
-FREQ_MOD = {}
-"""Amplify specific frequencies"""
+# Read from custom path if given
+if len(sys.argv) == 1:
+	CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.json"
+elif len(sys.argv) == 2:
+	CONFIG_PATH = Path(sys.argv[1]).resolve()
+	if not CONFIG_PATH.exists():
+		raise FileNotFoundError(f"Config file not found: {sys.argv[1]}")
+else:
+	raise ValueError("Usage: ./start.py [config_path]")
 
-# Do not change below this line
+# Reading from config.json
+with open(CONFIG_PATH, "r") as f:
+	dat = json.load(f)
+	if dat["version"] != 1:
+		raise ValueError(f"Unsupported version: {dat['version']}")
 
+	SHIFT = dat["shift"]
+	"""Shift audio right by SHIFT hz. Happens after amplification"""
+
+	FREQ_CHANGES = dat["freq_changes"]
+	"""Amplify specific frequencies"""
+
+	MIC_NAME = dat["mic_name"]
+	"""Device name of physical microphone"""
+
+	BLACKHOLE_NAME = dat["blackhole_name"]
+	"""Device name of BlackHole"""
+
+# Do not change these
 SAMPLE_RATE = 44100
 """Standard audio sample rate"""
 

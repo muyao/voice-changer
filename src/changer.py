@@ -6,7 +6,7 @@ import src.filter as fil
 
 
 # Pre-compute filter coefficients
-b = fil.create_filter(conf.FREQ_MOD, conf.SAMPLE_RATE)
+b = fil.create_filter(conf.FREQ_CHANGES, conf.SAMPLE_RATE)
 zi = np.zeros((len(b) - 1, 1))
 
 # Continuous phase accumulator to prevent audio popping
