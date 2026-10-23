@@ -9,7 +9,7 @@ sys.path.insert(0, str(ROOT_DIR))
 
 import src.config as conf
 import src.device as dev
-import src.modify as mod
+import src.changer as mod
 
 
 def main() -> None:
