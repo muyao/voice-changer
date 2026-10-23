@@ -11,3 +11,5 @@ SAMPLE_RATE = 44100
 
 BLOCK_SIZE = 1024
 """Buffer size, frames"""
+
+PID_FILE_NAME = "stream.pid"
