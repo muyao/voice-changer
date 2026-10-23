@@ -22,6 +22,7 @@ def main() -> None:
 		stop_event.set()
 
 	signal.signal(signal.SIGINT, signal_handler)
+	signal.signal(signal.SIGTERM, signal_handler)
 
 	PID_FILE_PATH = ROOT_DIR / conf.PID_FILE_NAME
 
@@ -30,14 +31,17 @@ def main() -> None:
 
 	mic_id, bkh_id = dev.identify_devices()
 
-	with sd.Stream(
-		device=(mic_id, bkh_id),
-		samplerate=conf.SAMPLE_RATE,
-		blocksize=conf.BLOCK_SIZE,
-		channels=1,
-		callback=chg.callback,
-	):
-		stop_event.wait()
+	try:
+		with sd.Stream(
+			device=(mic_id, bkh_id),
+			samplerate=conf.SAMPLE_RATE,
+			blocksize=conf.BLOCK_SIZE,
+			channels=1,
+			callback=chg.callback,
+		):
+			stop_event.wait()
+	finally:
+		os.remove(PID_FILE_PATH)
 
 
 if __name__ == "__main__":
