@@ -23,6 +23,7 @@ def main() -> None:
 
 	signal.signal(signal.SIGINT, signal_handler)
 	signal.signal(signal.SIGTERM, signal_handler)
+	signal.signal(signal.SIGHUP, signal.SIG_IGN)
 
 	PID_FILE_PATH = ROOT_DIR / conf.PID_FILE_NAME
 
