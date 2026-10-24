@@ -19,6 +19,7 @@ def main() -> None:
 			f'File "{conf.PID_FILE_NAME}" not found. Was it removed?'
 		)
 
+	# Read pid
 	with open(PID_FILE_PATH, "r") as f:
 		pid = int(f.read().strip())
 

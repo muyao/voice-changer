@@ -16,15 +16,17 @@ import src.changer as chg
 
 
 def main() -> None:
-	stop_event = threading.Event()
+	stop_ev = threading.Event()
 
-	def signal_handler(sig, frame) -> None:
-		stop_event.set()
+	def stop_voicechanger(sig, frame) -> None:
+		stop_ev.set()
 
-	signal.signal(signal.SIGINT, signal_handler)
-	signal.signal(signal.SIGTERM, signal_handler)
+	# Catch stop signals
+	signal.signal(signal.SIGINT, stop_voicechanger)
+	signal.signal(signal.SIGTERM, stop_voicechanger)
 	signal.signal(signal.SIGHUP, signal.SIG_IGN)
 
+	# Where the pid is stored
 	PID_FILE_PATH = ROOT_DIR / conf.PID_FILE_NAME
 
 	with open(PID_FILE_PATH, "w") as f:
@@ -40,7 +42,9 @@ def main() -> None:
 			channels=1,
 			callback=chg.callback,
 		):
-			stop_event.wait()
+			# Wait until stop_voicechanger is called
+			stop_ev.wait()
+
 	finally:
 		if PID_FILE_PATH.exists():
 			os.remove(PID_FILE_PATH)
