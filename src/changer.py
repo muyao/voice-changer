@@ -18,26 +18,25 @@ def callback(indat: np.ndarray, outdat: np.ndarray, frames: int, t, st) -> None:
 	if st:
 		print(st)
 
-	# Apply frequency dependent amplification
-	filt_dat, zi = sp.lfilter(b, 1.0, indat, axis=0, zi=zi)
-
-	# Output if no shift, otherwise apply shift
 	shift_hz = conf.SHIFT
-	if shift_hz == 0:
-		outdat[:] = filt_dat
-		return
 
-	# Generate analytic signal with Hilbert Transform
-	analytic = sp.hilbert(filt_dat, axis=0)
+	if shift_hz != 0:
+		# Generate analytic signal with Hilbert Transform on raw input
+		analytic = sp.hilbert(indat, axis=0)
 
-	# Calculate exact phase increments for this block
-	dt = 1.0 / conf.SAMPLE_RATE
-	t_samples = np.arange(frames)
-	phases = current_phase + 2 * np.pi * shift_hz * dt * t_samples
+		# Calculate exact phase increments for this block
+		dt = 1.0 / conf.SAMPLE_RATE
+		t_samples = np.arange(frames)
+		phases = current_phase + 2 * np.pi * shift_hz * dt * t_samples
 
-	# Preserve phase continuity for the next callback block
-	current_phase = (phases[-1] + 2 * np.pi * shift_hz * dt) % (2 * np.pi)
+		# Preserve phase continuity for the next callback block
+		current_phase = (phases[-1] + 2 * np.pi * shift_hz * dt) % (2 * np.pi)
 
-	# Rotate phase and extract real component
-	shifted = analytic * np.exp(1j * phases[:, None])
-	outdat[:] = np.real(shifted)
+		# Rotate phase and extract real component
+		shifted = analytic * np.exp(1j * phases[:, None])
+		shifted_dat = np.real(shifted)
+	else:
+		shifted_dat = indat
+
+	# Apply frequency-dependent filter on the shifted signal
+	outdat[:], zi = sp.lfilter(b, 1.0, shifted_dat, axis=0, zi=zi)
