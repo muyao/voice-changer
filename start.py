@@ -41,7 +41,8 @@ def main() -> None:
 		):
 			stop_event.wait()
 	finally:
-		os.remove(PID_FILE_PATH)
+		if PID_FILE_PATH.exists():
+			os.remove(PID_FILE_PATH)
 
 
 if __name__ == "__main__":
