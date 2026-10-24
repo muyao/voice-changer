@@ -26,6 +26,9 @@ def main() -> None:
 		os.kill(pid, signal.SIGTERM)
 	except ProcessLookupError:
 		raise ProcessLookupError("No such process. Was it already stopped?")
+	finally:
+		# File guaranteed to exist because already checked earlier
+		os.remove(PID_FILE_PATH)
 
 
 if __name__ == "__main__":
