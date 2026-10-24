@@ -40,7 +40,7 @@ A simple voice changer with Python and BlackHole
 
 * **Starting:**
    ```bash
-   ./start.py
+   ./start.py &
    ```
 
 * **Stopping:**
@@ -50,7 +50,7 @@ A simple voice changer with Python and BlackHole
 
 * **Using preset:**
    ```bash
-   ./start.py [preset_path]
+   ./start.py [preset_path] &
    ```
 
 ---
