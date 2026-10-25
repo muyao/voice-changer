@@ -29,6 +29,9 @@ def main() -> None:
 	# Where the pid is stored
 	PID_FILE_PATH = ROOT_DIR / conf.PID_FILE_NAME
 
+	if PID_FILE_PATH.exists():
+		raise FileExistsError(f'"{conf.PID_FILE_NAME}" already exists')
+
 	with open(PID_FILE_PATH, "w") as f:
 		f.write(str(os.getpid()))
 
