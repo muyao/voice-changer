@@ -35,11 +35,11 @@ def main() -> None:
 	with open(PID_FILE_PATH, "w") as f:
 		f.write(str(os.getpid()))
 
-	mic_id, bkh_id = dev.identify_devices()
+	mic_id, vrt_id = dev.identify_devices()
 
 	try:
 		with sd.Stream(
-			device=(mic_id, bkh_id),
+			device=(mic_id, vrt_id),
 			samplerate=conf.SAMPLE_RATE,
 			blocksize=conf.BLOCK_SIZE,
 			channels=1,
