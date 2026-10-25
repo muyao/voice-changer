@@ -9,11 +9,11 @@ def _parse_range(range_str: str) -> tuple[float, float]:
 	try:
 		low, high = float(low_str.strip()), float(high_str.strip())
 	except ValueError:
-		raise ValueError(f"Invalid format: {range_str}")
+		raise ValueError(f'Invalid format: "{range_str}"')
 
 	if low >= high:
 		raise ValueError(
-			f"Lower bound must be less than upper bound: '{range_str}'"
+			f'Lower bound must be less than upper bound: "{range_str}"'
 		)
 	return low, high
 
@@ -35,8 +35,8 @@ def create_mapping() -> list[tuple[slice, slice, float]]:
 		# Check bandwidth match
 		if not np.isclose(out_bw, in_bw):
 			raise ValueError(
-				f"Bandwidth mismatch: '{out_str}' ({out_bw} Hz) does not match "
-				f"'{in_str}' ({in_bw} Hz)"
+				f'Bandwidth mismatch: "{out_str}" ({out_bw} Hz) does not match '
+				f'"{in_str}" ({in_bw} Hz)'
 			)
 
 		target_ranges.append((out_min, out_max, out_str))
@@ -50,7 +50,7 @@ def create_mapping() -> list[tuple[slice, slice, float]]:
 
 		if curr_max > next_min:
 			raise ValueError(
-				f"Overlapping output ranges: '{curr_str}' and '{next_str}'"
+				f'Overlapping output ranges: "{curr_str}" and "{next_str}"'
 			)
 
 	# Pre-calculate FFT bin indices (Hz to Bin mapping)
